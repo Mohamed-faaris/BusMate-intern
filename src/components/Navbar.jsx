@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import { Typography, Link } from "@mui/material";
-import { navbarStyles } from "./style";
+import { navbarStyles } from "../styles";
 
 export default function Navbar() {
   return (

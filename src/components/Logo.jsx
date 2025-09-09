@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import React from "react";
-import { logoStyles } from "./style";
+import { logoStyles } from "../styles";
 
 export default function Logo() {
   return (

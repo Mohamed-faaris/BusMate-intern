@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
-import { contactStyles } from "./style";
+import { contactStyles } from "../styles";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
