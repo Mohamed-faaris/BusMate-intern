@@ -2,10 +2,10 @@ import { useState } from "react";
 import Logo from "./components/Logo";
 import { ThemeProvider } from "@mui/material/styles";
 import { Container } from "@mui/material";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Features from "./components/features";
-import Developer from "./components/developer";
+import Features from "./components/Features";
+import Developer from "./components/Developer";
 import Contact from "./components/Contact";
 
 function App() {
