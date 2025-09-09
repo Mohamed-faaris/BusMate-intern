@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { heroStyles } from "./style";
+import { heroStyles } from "../styles";
 
 export default function Hero() {
   const [opacity, setOpacity] = useState(0);

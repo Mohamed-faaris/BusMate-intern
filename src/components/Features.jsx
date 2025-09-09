@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { featuresStyles } from "./style";
+import { featuresStyles } from "../styles";
 
 const features = [
   {

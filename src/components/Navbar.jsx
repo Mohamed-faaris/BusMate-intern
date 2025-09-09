@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import { Typography, Link } from "@mui/material";
-import { navbarStyles } from "./style";
+import { navbarStyles } from "../styles";
 
 export default function Navbar() {
   return (
@@ -12,7 +12,9 @@ export default function Navbar() {
       <Link href="#features" sx={navbarStyles.link}>
         <Typography variant="h4">Features</Typography>
       </Link>
+      <Link href="#home">
       <Logo />
+      </Link>
       <Link href="#developer" sx={navbarStyles.link}>
         <Typography variant="h4">Developer</Typography>
       </Link>

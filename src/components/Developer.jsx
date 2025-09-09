@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, Paper, Link, Divider } from "@mui/material";
-import { developerStyles } from "./style";
+import { developerStyles } from "../styles";
 
 export default function Developer() {
   return (
