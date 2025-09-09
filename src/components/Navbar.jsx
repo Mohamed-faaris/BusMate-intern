@@ -9,10 +9,10 @@ export default function Navbar() {
       <Link href="#home" sx={navbarStyles.link}>
         <Typography variant="h4">Home</Typography>
       </Link>
-      <Link href="#features" sx={navbarStyles.link}>
+      <Link href="#features" >
         <Typography variant="h4">Features</Typography>
       </Link>
-      <Link href="#home">
+      <Link href="#home" sx={navbarStyles.link}>
       <Logo />
       </Link>
       <Link href="#developer" sx={navbarStyles.link}>
