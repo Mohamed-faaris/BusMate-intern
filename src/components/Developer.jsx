@@ -15,7 +15,7 @@ export default function Developer() {
         align="center"
         color="text.secondary"
       >
-        B.E in Computer Science and Engineering (2024 - 2027)
+        B.E in Computer Science and Engineering (2023 - 2027)
       </Typography>
       <Typography variant="h6" gutterBottom align="center">
         K Ramakrishnan College Of Engineering, Trichy
