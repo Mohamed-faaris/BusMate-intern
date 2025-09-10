@@ -11,6 +11,8 @@ import Contact from './components/Contact';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
+import { Button, Box, Typography } from '@mui/material';
+
 function App() {
   useEffect(() => {
     // Initialize Feather icons
