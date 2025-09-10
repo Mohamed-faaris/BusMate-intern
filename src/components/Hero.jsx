@@ -16,7 +16,7 @@ const Hero = () => {
           </div>
           <div className="md:w-1/2" data-aos="fade-left">
             <div className="relative bus-animation">
-              <img src="http://static.photos/transportation/1024x576/1" alt="Bus" className="rounded-xl shadow-2xl" />
+              <img src="http://static.photos/technology/1024x576/42" alt="Bus" className="rounded-xl shadow-2xl" />
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg">
                 <div className="flex space-x-2">
                   <div className="seat w-8 h-8 bg-green-200 rounded flex items-center justify-center cursor-pointer">
