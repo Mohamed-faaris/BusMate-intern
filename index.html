@@ -111,17 +111,5 @@
   <body class="bg-gray-50">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script>
-      // Initialize AOS after React loads
-      document.addEventListener('DOMContentLoaded', function() {
-        if (window.AOS) {
-          window.AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-          });
-        }
-      });
-    </script>
   </body>
 </html>

@@ -66,6 +66,7 @@ const styles = {
     transform: 'scale(10, 10)',
     opacity: '0',
     transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease',
+    
   },
   rippleActiveAfter: {
     transform: 'scale(0, 0)',

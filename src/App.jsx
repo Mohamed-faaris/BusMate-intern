@@ -20,6 +20,15 @@ function App() {
       window.feather.replace();
     }
 
+    // Initialize AOS after React components mount
+    if (window.AOS) {
+      window.AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+      });
+    }
+
     // Simple animation for the bus
     const bus = document.querySelector('.bus-animation');
     if (bus) {

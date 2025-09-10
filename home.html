@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusMate - Modern Bus Seat Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-hover {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .seat {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .seat:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition-duration: 0.2s;
+        }
+
+        .seat.available {
+            background-color: #a7f3d0;
+            border: 2px solid #34d399;
+        }
+
+        .seat.booked {
+            background-color: #fecaca;
+            border: 2px solid #f87171;
+        }
+
+        .seat.selected {
+            background-color: #bfdbfe;
+            border: 2px solid #60a5fa;
+        }
+        
+        .bus-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease;
+        }
+        
+        .ripple:active:after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-white font-bold text-xl mr-2">
+                        BM
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">BusMate</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-indigo-600 transition">Features</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600 transition">How It Works</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-indigo-600 transition">Pricing</a>
+                    <a href="#contact" class="text-gray-600 hover:text-indigo-600 transition">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="px-4 py-2 text-indigo-600 font-medium rounded-full hover:bg-indigo-50 transition">Login</a>
+                    <a href="#" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 transition btn-hover ripple">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-32 pb-20 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Book Your Bus Seat With Ease</h1>
+                    <p class="text-xl text-indigo-100 mb-8">BusMate makes campus and route transportation simple, efficient, and enjoyable for everyone.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" class="px-8 py-4 bg-white text-indigo-600 font-bold rounded-full text-center hover:bg-gray-100 transition btn-hover ripple">Get Started</a>
+                        <a href="#" class="px-8 py-4 border-2 border-white text-white font-bold rounded-full text-center hover:bg-white hover:bg-opacity-10 transition btn-hover ripple">Watch Demo</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <div class="relative bus-animation">
+                        <img src="http://static.photos/technology/1024x576/42" alt="Bus" class="rounded-xl shadow-2xl">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg">
+                            <div class="flex space-x-2">
+                                <div class="seat w-8 h-8 bg-green-200 rounded flex items-center justify-center cursor-pointer">
+                                    <i data-feather="user"></i>
+                                </div>
+                                <div class="seat w-8 h-8 bg-green-200 rounded flex items-center justify-center cursor-pointer">
+                                    <i data-feather="user"></i>
+                                </div>
+                                <div class="seat w-8 h-8 bg-gray-200 rounded flex items-center justify-center cursor-pointer">
+                                    <i data-feather="user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Amazing Features</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Everything you need to manage your bus transportation efficiently</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="calendar" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Easy Booking</h3>
+                    <p class="text-gray-600">Book your seat in just a few taps. No more waiting in long queues.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="map" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Route Management</h3>
+                    <p class="text-gray-600">View all available routes and schedules in real-time.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="shield" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Secure Platform</h3>
+                    <p class="text-gray-600">Your data is protected with industry-standard security measures.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="bar-chart-2" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Dashboard</h3>
+                    <p class="text-gray-600">Track your bookings and payment history in one place.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="users" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">User Management</h3>
+                    <p class="text-gray-600">Easily manage drivers, students, and administrators.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="bell" class="text-indigo-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Notifications</h3>
+                    <p class="text-gray-600">Get instant alerts about schedule changes and updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Simple steps to book your seat and manage your trips.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Sign Up</h3>
+                    <p class="text-gray-600">Create your account in minutes.</p>
+                </div>
+                
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Select Route</h3>
+                    <p class="text-gray-600">Choose your preferred bus route.</p>
+                </div>
+                
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Pick Seat</h3>
+                    <p class="text-gray-600">Select your favorite seat on the bus.</p>
+                </div>
+                
+                <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">4</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Confirm & Pay</h3>
+                    <p class="text-gray-600">Get instant confirmation and enjoy your ride.</p>
+                </div>
+            </div>
+            
+            <div class="mt-16" data-aos="fade-up">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 mb-8 md:mb-0">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Interactive Seat Map</h3>
+                            <p class="text-gray-600 mb-6">Our visual seat selection makes choosing your spot intuitive and fun.</p>
+                            <div class="flex space-x-4">
+                                <div class="flex items-center">
+                                    <div class="seat available mr-2"></div>
+                                    <span class="text-sm">Available</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="seat booked mr-2"></div>
+                                    <span class="text-sm">Booked</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="seat selected mr-2"></div>
+                                    <span class="text-sm">Selected</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="grid grid-cols-4 gap-2">
+                                <!-- Bus seats demo -->
+                                <div class="seat available"></div>
+                                <div class="seat available"></div>
+                                <div class="seat booked"></div>
+                                <div class="seat available"></div>
+                                <div class="seat available"></div>
+                                <div class="seat selected"></div>
+                                <div class="seat booked"></div>
+                                <div class="seat available"></div>
+                                <div class="seat available"></div>
+                                <div class="seat available"></div>
+                                <div class="seat booked"></div>
+                                <div class="seat available"></div>
+                                <div class="seat booked"></div>
+                                <div class="seat available"></div>
+                                <div class="seat booked"></div>
+                                <div class="seat available"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-6 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Simple Pricing</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Choose the plan that fits your needs</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Basic Plan -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md border border-gray-200" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Basic</h3>
+                        <p class="text-gray-600 mb-4">Perfect for individual students</p>
+                        <div class="flex justify-center items-baseline">
+                            <span class="text-4xl font-bold text-indigo-600">$5</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Up to 10 bookings/month</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Route notifications</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Basic support</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full py-3 px-6 text-center bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 transition btn-hover ripple">Get Started</a>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-xl border-2 border-indigo-500 transform scale-105" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-center mb-6">
+                        <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm font-medium mb-2">Most Popular</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Pro</h3>
+                        <p class="text-gray-600 mb-4">Best for frequent travelers</p>
+                        <div class="flex justify-center items-baseline">
+                            <span class="text-4xl font-bold text-indigo-600">$10</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Unlimited bookings</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Priority seat selection</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Real-time tracking</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>24/7 support</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full py-3 px-6 text-center bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 transition btn-hover ripple">Get Started</a>
+                </div>
+                
+                <!-- Campus Plan -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md border border-gray-200" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Campus</h3>
+                        <p class="text-gray-600 mb-4">For universities & organizations</p>
+                        <div class="flex justify-center items-baseline">
+                            <span class="text-4xl font-bold text-indigo-600">$99</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Unlimited users</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Custom routes</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Admin dashboard</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="check" class="text-green-500 mr-2"></i>
+                            <span>Dedicated support</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full py-3 px-6 text-center bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-700 transition btn-hover ripple">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">What Our Users Say</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Don't just take our word for it</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="http://static.photos/people/200x200/1" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Sarah Johnson</h4>
+                            <p class="text-gray-500 text-sm">Student at UCLA</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"BusMate has completely transformed my daily commute. I can book my seat in seconds and always know when my bus is arriving."</p>
+                    <div class="flex text-yellow-400">
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="http://static.photos/people/200x200/2" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Michael Chen</h4>
+                            <p class="text-gray-500 text-sm">Transport Coordinator</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Managing our campus buses has never been easier. The admin dashboard gives us complete control over routes and schedules."</p>
+                    <div class="flex text-yellow-400">
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="http://static.photos/people/200x200/3" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Emma Rodriguez</h4>
+                            <p class="text-gray-500 text-sm">Daily Commuter</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"I love being able to see exactly which seats are available. No more guessing games when boarding the bus!"</p>
+                    <div class="flex text-yellow-400">
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Get In Touch</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Have questions? We're here to help you get started with BusMate.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Send us a message</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="name">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="email">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="message">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 px-6 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition btn-hover ripple">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="md:w-1/2 bg-indigo-600 text-white p-8">
+                        <h3 class="text-xl font-bold mb-6">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i data-feather="mail" class="mr-4 w-6 h-6"></i>
+                                <span>hello@busmate.com</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-feather="phone" class="mr-4 w-6 h-6"></i>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-feather="map-pin" class="mr-4 w-6 h-6"></i>
+                                <span>123 Campus Drive, University City, CA 92122</span>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-4">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center hover:bg-indigo-800 transition">
+                                    <i data-feather="facebook" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center hover:bg-indigo-800 transition">
+                                    <i data-feather="twitter" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center hover:bg-indigo-800 transition">
+                                    <i data-feather="instagram" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center hover:bg-indigo-800 transition">
+                                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-6 hero-gradient">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Simplify Your Commute?</h2>
+            <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">Join thousands of students and commuters who are already enjoying stress-free transportation.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="px-8 py-4 bg-white text-indigo-600 font-bold rounded-full hover:bg-gray-100 transition btn-hover ripple">Get Started Now</a>
+                <a href="#" class="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:bg-opacity-10 transition btn-hover ripple">See Live Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-gray-900 text-gray-400">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-white font-bold text-xl mr-2">
+                            BM
+                        </div>
+                        <span class="text-xl font-bold text-white">BusMate</span>
+                    </div>
+                    <p class="mb-4">Making campus transportation simple, efficient, and enjoyable.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300">
+                            <i data-feather="facebook" class="text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i data-feather="twitter" class="text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i data-feather="instagram" class="text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i data-feather="linkedin" class="text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition">API</a></li>
+                        <li><a href="#" class="hover:text-white transition">Integrations</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">About</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>© 2023 BusMate. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        feather.replace();
+        
+        // Simple animation for the bus
+        document.addEventListener('DOMContentLoaded', function() {
+            const bus = document.querySelector('.bus-animation');
+            if (bus) {
+                setInterval(() => {
+                    bus.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        bus.style.transform = 'translateY(0)';
+                    }, 500);
+                }, 3000);
+            }
+            
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('.ripple');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple-effect';
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

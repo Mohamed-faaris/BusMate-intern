@@ -9,25 +9,33 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+/* Add browser-specific prefixes for better compatibility */
 .btn-hover {
+    -webkit-transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .btn-hover:hover {
+    -webkit-transform: translateY(-3px);
     transform: translateY(-3px);
+    -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card {
+    -webkit-transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .feature-card:hover {
+    -webkit-transform: translateY(-5px);
     transform: translateY(-5px);
+    -webkit-box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .seat {
+    -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     width: 30px;
     height: 30px;
@@ -36,8 +44,11 @@ body {
 }
 
 .seat:hover {
+    -webkit-transform: scale(1.1);
     transform: scale(1.1);
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -webkit-transition-duration: 0.2s;
     transition-duration: 0.2s;
 }
 
@@ -57,7 +68,14 @@ body {
 }
 
 .bus-animation {
+    -webkit-animation: float 6s ease-in-out infinite;
     animation: float 6s ease-in-out infinite;
+}
+
+@-webkit-keyframes float {
+    0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+    50% { -webkit-transform: translateY(-15px); transform: translateY(-15px); }
+    100% { -webkit-transform: translateY(0px); transform: translateY(0px); }
 }
 
 @keyframes float {
